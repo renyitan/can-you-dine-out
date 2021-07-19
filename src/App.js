@@ -148,7 +148,7 @@ function App() {
 
           <div>
             <Heading as="h5" size="sm">
-              Is there anyone above 12 years old fully vaccinated
+              Is everyone above 12 years old fully vaccinated
             </Heading>
 
             <Select
@@ -347,7 +347,9 @@ function App() {
             </Button>
           </ButtonGroup>
           <Divider />
-          <Text fontSize="xs" color="gray.400">Developed by Renyi Tan</Text>
+          <Text fontSize="xs" color="gray.400">
+            Developed by Renyi Tan
+          </Text>
         </Stack>
       </Center>
     </div>
