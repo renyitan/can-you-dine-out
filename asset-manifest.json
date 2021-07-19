@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/sg-covid-dineout/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/sg-covid-dineout/static/js/main.fa50dff6.chunk.js",
+    "main.js.map": "/sg-covid-dineout/static/js/main.fa50dff6.chunk.js.map",
+    "runtime-main.js": "/sg-covid-dineout/static/js/runtime-main.4eca514b.js",
+    "runtime-main.js.map": "/sg-covid-dineout/static/js/runtime-main.4eca514b.js.map",
+    "static/js/2.31019ec8.chunk.js": "/sg-covid-dineout/static/js/2.31019ec8.chunk.js",
+    "static/js/2.31019ec8.chunk.js.map": "/sg-covid-dineout/static/js/2.31019ec8.chunk.js.map",
+    "index.html": "/sg-covid-dineout/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/sg-covid-dineout/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.31019ec8.chunk.js.LICENSE.txt": "/sg-covid-dineout/static/js/2.31019ec8.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4eca514b.js",
+    "static/js/2.31019ec8.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.fa50dff6.chunk.js"
+  ]
+}
