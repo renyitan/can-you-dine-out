@@ -19,7 +19,6 @@ function App() {
   const [numChildren, setNumChildren] = useState(1);
   const [numDinersWithChildren, setnumDinersWithChildren] = useState(0);
   const [isAllowed, setIsAllowed] = useState('');
-  const [resultSnapshot, setResultSnapshot] = useState({});
 
   function reset() {
     setIsAllowed('');
@@ -29,11 +28,10 @@ function App() {
     setIsDinersFromSameHousehold(false);
     setNumChildren(1);
     setnumDinersWithChildren(0);
-    setResultSnapshot({});
   }
 
   useEffect(() => {
-    if (numDiners === 2 || numDiners === 6) reset();
+    if (numDiners === 2) reset();
   }, [numDiners]);
 
   useEffect(() => {
@@ -125,6 +123,8 @@ function App() {
             </Heading>
 
             <Select
+              borderColor={'green.200'}
+              borderWidth={2}
               value={numDiners}
               onChange={(event) => setNumDiners(parseInt(event.target.value))}
             >
@@ -140,6 +140,10 @@ function App() {
             </Heading>
 
             <Select
+              borderColor={
+                numDiners <= 2 || numDiners >= 6 ? 'gray.200' : 'green.200'
+              }
+              borderWidth={numDiners <= 2 || numDiners >= 6 ? 1 : 2}
               value={isChildrenAboveTwelveVaccinated ? 'yes' : 'no'}
               disabled={numDiners <= 2 || numDiners >= 6}
               onChange={(event) =>
@@ -158,6 +162,20 @@ function App() {
               Are there any children 12 years old and below?
             </Heading>
             <Select
+              borderColor={
+                numDiners <= 2 ||
+                numDiners >= 6 ||
+                !isChildrenAboveTwelveVaccinated
+                  ? 'gray.200'
+                  : 'green.200'
+              }
+              borderWidth={
+                numDiners <= 2 ||
+                numDiners >= 6 ||
+                !isChildrenAboveTwelveVaccinated
+                  ? 1
+                  : 2
+              }
               value={isChildrenBelowTwelve ? 'yes' : 'no'}
               disabled={
                 numDiners <= 2 ||
@@ -178,6 +196,22 @@ function App() {
               Are all diners from the same household?
             </Heading>
             <Select
+              borderColor={
+                numDiners <= 2 ||
+                numDiners >= 6 ||
+                !isChildrenAboveTwelveVaccinated ||
+                !isChildrenBelowTwelve
+                  ? 'gray.200'
+                  : 'green.200'
+              }
+              borderWidth={
+                numDiners <= 2 ||
+                numDiners >= 6 ||
+                !isChildrenAboveTwelveVaccinated ||
+                !isChildrenBelowTwelve
+                  ? 1
+                  : 2
+              }
               value={isDinersFromSameHousehold ? 'yes' : 'no'}
               disabled={
                 numDiners <= 2 ||
@@ -202,6 +236,22 @@ function App() {
             </Heading>
             {isDinersFromSameHousehold && (
               <Select
+                borderColor={
+                  numDiners <= 2 ||
+                  numDiners >= 6 ||
+                  !isChildrenAboveTwelveVaccinated ||
+                  !isChildrenBelowTwelve
+                    ? 'gray.200'
+                    : 'green.200'
+                }
+                borderWidth={
+                  numDiners <= 2 ||
+                  numDiners >= 6 ||
+                  !isChildrenAboveTwelveVaccinated ||
+                  !isChildrenBelowTwelve
+                    ? 1
+                    : 2
+                }
                 disabled={
                   numDiners <= 2 ||
                   numDiners >= 6 ||
@@ -220,6 +270,22 @@ function App() {
 
             {!isDinersFromSameHousehold && (
               <Select
+                borderColor={
+                  numDiners <= 2 ||
+                  numDiners >= 6 ||
+                  !isChildrenAboveTwelveVaccinated ||
+                  !isChildrenBelowTwelve
+                    ? 'gray.200'
+                    : 'green.200'
+                }
+                borderWidth={
+                  numDiners <= 2 ||
+                  numDiners >= 6 ||
+                  !isChildrenAboveTwelveVaccinated ||
+                  !isChildrenBelowTwelve
+                    ? 1
+                    : 2
+                }
                 disabled={
                   numDiners <= 2 ||
                   numDiners >= 6 ||
