@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import _ from 'lodash';
 
 import {
   Button,
@@ -11,25 +12,35 @@ import {
   Divider,
 } from '@chakra-ui/react';
 
+const ST_INFOGRAPHIC_URL =
+  'https://www.straitstimes.com/singapore/health/dine-in-group-size-cut-to-2-from-july-19-as-spore-tightens-covid-19-rules-but-up-to';
+
+const FLOWCHART_URL =
+  'https://www.reddit.com/r/singapore/comments/ommmds/a_flowchart_for_the_new_dining_in_rule_starting/';
+
+const STATUS = {
+  ALLOWED: 'Allowed',
+  NO_RESULTS: "Press 'Check' for results",
+  NOT_ALLOWED: 'Not Allowed',
+};
+
 function App() {
   const [numDiners, setNumDiners] = useState(2);
-  const [isChildrenAboveTwelveVaccinated, setIsChildrenAboveTwelveVaccinated] =
+  const [isEveryoneAboveTwelveVaccinated, setIsEveryoneAboveTwelveVaccinated] =
     useState(false);
-  const [isChildrenBelowTwelve, setIsChildrenBelowTwleve] = useState(false);
   const [isDinersFromSameHousehold, setIsDinersFromSameHousehold] =
     useState(false);
-  const [numChildren, setNumChildren] = useState(1);
-  const [numDinersWithChildren, setnumDinersWithChildren] = useState(0);
+  const [numChildren, setNumChildren] = useState(0);
+  const [numAdults, setNumAdults] = useState(numDiners);
+
   const [isAllowed, setIsAllowed] = useState('');
 
   function reset() {
     setIsAllowed('');
     setNumDiners(2);
-    setIsChildrenAboveTwelveVaccinated(false);
-    setIsChildrenBelowTwleve(false);
+    setIsEveryoneAboveTwelveVaccinated(false);
     setIsDinersFromSameHousehold(false);
-    setNumChildren(1);
-    setnumDinersWithChildren(0);
+    setNumChildren(0);
   }
 
   useEffect(() => {
@@ -37,21 +48,24 @@ function App() {
   }, [numDiners]);
 
   useEffect(() => {
-    setNumChildren(1);
-  }, [isDinersFromSameHousehold]);
+    if (numChildren >= 0) setNumAdults(numDiners - numChildren);
+  }, [numChildren, numDiners]);
 
   useEffect(() => {
     setIsAllowed('');
   }, [
     numDiners,
-    isChildrenAboveTwelveVaccinated,
-    isChildrenBelowTwelve,
+    isEveryoneAboveTwelveVaccinated,
     isDinersFromSameHousehold,
     numChildren,
-    numDinersWithChildren,
   ]);
 
-  function check() {
+  function displayResults() {
+    if (isAllowed === '') return STATUS.NO_RESULTS;
+    else return isAllowed ? STATUS.ALLOWED : STATUS.NOT_ALLOWED;
+  }
+
+  function checkResults() {
     if (numDiners <= 2) {
       setIsAllowed(true);
       return;
@@ -61,35 +75,44 @@ function App() {
       return;
     }
 
-    if (!isChildrenAboveTwelveVaccinated) {
-      setIsAllowed(false);
+    // case 1: all adults, no children
+    if (numAdults === numDiners) {
+      const isAllowed = isEveryoneAboveTwelveVaccinated;
+      setIsAllowed(isAllowed);
       return;
     }
 
-    if (!isChildrenBelowTwelve) {
-      setIsAllowed(true);
+    // case 2: all children, no adults
+    if (numAdults === 0) {
+      // case 2a: if number of children less than 5
+      const isAllowed = numChildren < 5;
+      setIsAllowed(isAllowed);
       return;
     }
 
+    // case 3: some children, some adults, same household
     if (isDinersFromSameHousehold) {
-      numChildren < 5 ? setIsAllowed(true) : setIsAllowed(false);
-      return;
-    }
-
-    if (!isDinersFromSameHousehold) {
-      if (numChildren === 1) {
-        setIsAllowed(true);
-        return;
-      }
-
-      if (numChildren >= 3) {
+      // case 3a: adult(s) is or are vaccinated
+      if (isEveryoneAboveTwelveVaccinated) {
+        const isAllowed = numDiners <= 5 ? true : false;
+        setIsAllowed(isAllowed);
+      } else {
         setIsAllowed(false);
-        return;
       }
-
-      numDinersWithChildren <= 3 ? setIsAllowed(false) : setIsAllowed(true);
       return;
     }
+
+    // case 4: some children, some adults, different household
+    if (!isDinersFromSameHousehold) {
+      // case 4a: adults are fully vaccinated
+      if (isEveryoneAboveTwelveVaccinated) {
+        const isAllowed = numChildren / numDiners <= 0.5 ? true : false;
+        setIsAllowed(isAllowed);
+      } else {
+        setIsAllowed(false);
+      }
+    }
+
     return;
   }
 
@@ -120,18 +143,14 @@ function App() {
               marginY={2}
             >
               <Heading as="h5" size="sm">
-                {isAllowed
-                  ? 'Allowed'
-                  : isAllowed === ''
-                  ? "Press 'Check' to see results"
-                  : 'Not Allowed'}
+                {displayResults()}
               </Heading>
             </Center>
           </div>
 
           <div>
             <Heading as="h5" size="sm">
-              Number of diners
+              Total number of diners
             </Heading>
 
             <Select
@@ -140,15 +159,18 @@ function App() {
               value={numDiners}
               onChange={(event) => setNumDiners(parseInt(event.target.value))}
             >
-              <option value="2">1 -2 pax</option>
-              <option value="5">3 -5 pax</option>
-              <option value="6">6 pax or more</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>More than 6</option>
             </Select>
           </div>
 
           <div>
             <Heading as="h5" size="sm">
-              Is everyone above 12 years old fully vaccinated
+              How many children are there?
             </Heading>
 
             <Select
@@ -156,46 +178,34 @@ function App() {
                 numDiners <= 2 || numDiners >= 6 ? 'gray.200' : 'green.200'
               }
               borderWidth={numDiners <= 2 || numDiners >= 6 ? 1 : 2}
-              value={isChildrenAboveTwelveVaccinated ? 'yes' : 'no'}
               disabled={numDiners <= 2 || numDiners >= 6}
-              onChange={(event) =>
-                setIsChildrenAboveTwelveVaccinated(
-                  event.target.value === 'yes' || false
-                )
-              }
+              value={numChildren}
+              onChange={(event) => setNumChildren(event.target.value)}
             >
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
+              {_.range(0, numDiners + 1).map((diner) => (
+                <option key={diner} value={diner}>
+                  {diner}
+                </option>
+              ))}
             </Select>
           </div>
 
           <div>
             <Heading as="h5" size="sm">
-              Are there any children 12 years old and below?
+              Is everyone above 12 years old fully vaccinated?
             </Heading>
+
             <Select
               borderColor={
-                numDiners <= 2 ||
-                numDiners >= 6 ||
-                !isChildrenAboveTwelveVaccinated
-                  ? 'gray.200'
-                  : 'green.200'
+                numDiners <= 2 || numDiners >= 6 ? 'gray.200' : 'green.200'
               }
-              borderWidth={
-                numDiners <= 2 ||
-                numDiners >= 6 ||
-                !isChildrenAboveTwelveVaccinated
-                  ? 1
-                  : 2
-              }
-              value={isChildrenBelowTwelve ? 'yes' : 'no'}
-              disabled={
-                numDiners <= 2 ||
-                numDiners >= 6 ||
-                !isChildrenAboveTwelveVaccinated
-              }
+              borderWidth={numDiners <= 2 || numDiners >= 6 ? 1 : 2}
+              value={isEveryoneAboveTwelveVaccinated ? 'yes' : 'no'}
+              disabled={numDiners <= 2 || numDiners >= 6}
               onChange={(event) =>
-                setIsChildrenBelowTwleve(event.target.value === 'yes' ?? false)
+                setIsEveryoneAboveTwelveVaccinated(
+                  event.target.value === 'yes' || false
+                )
               }
             >
               <option value="yes">Yes</option>
@@ -209,28 +219,11 @@ function App() {
             </Heading>
             <Select
               borderColor={
-                numDiners <= 2 ||
-                numDiners >= 6 ||
-                !isChildrenAboveTwelveVaccinated ||
-                !isChildrenBelowTwelve
-                  ? 'gray.200'
-                  : 'green.200'
+                numDiners <= 2 || numDiners >= 6 ? 'gray.200' : 'green.200'
               }
-              borderWidth={
-                numDiners <= 2 ||
-                numDiners >= 6 ||
-                !isChildrenAboveTwelveVaccinated ||
-                !isChildrenBelowTwelve
-                  ? 1
-                  : 2
-              }
+              borderWidth={numDiners <= 2 || numDiners >= 6 ? 1 : 2}
               value={isDinersFromSameHousehold ? 'yes' : 'no'}
-              disabled={
-                numDiners <= 2 ||
-                numDiners >= 6 ||
-                !isChildrenAboveTwelveVaccinated ||
-                !isChildrenBelowTwelve
-              }
+              disabled={numDiners <= 2 || numDiners >= 6}
               onChange={(event) =>
                 setIsDinersFromSameHousehold(
                   event.target.value === 'yes' ?? false
@@ -242,104 +235,8 @@ function App() {
             </Select>
           </div>
 
-          <div>
-            <Heading as="h5" size="sm">
-              How many children are there?
-            </Heading>
-            {isDinersFromSameHousehold && (
-              <Select
-                borderColor={
-                  numDiners <= 2 ||
-                  numDiners >= 6 ||
-                  !isChildrenAboveTwelveVaccinated ||
-                  !isChildrenBelowTwelve
-                    ? 'gray.200'
-                    : 'green.200'
-                }
-                borderWidth={
-                  numDiners <= 2 ||
-                  numDiners >= 6 ||
-                  !isChildrenAboveTwelveVaccinated ||
-                  !isChildrenBelowTwelve
-                    ? 1
-                    : 2
-                }
-                disabled={
-                  numDiners <= 2 ||
-                  numDiners >= 6 ||
-                  !isChildrenAboveTwelveVaccinated ||
-                  !isChildrenBelowTwelve
-                }
-                value={numChildren}
-                onChange={(event) =>
-                  setNumChildren(parseInt(event.target.value))
-                }
-              >
-                <option value="4">1 - 4 child</option>
-                <option value="5">5 children</option>
-              </Select>
-            )}
-
-            {!isDinersFromSameHousehold && (
-              <Select
-                borderColor={
-                  numDiners <= 2 ||
-                  numDiners >= 6 ||
-                  !isChildrenAboveTwelveVaccinated ||
-                  !isChildrenBelowTwelve
-                    ? 'gray.200'
-                    : 'green.200'
-                }
-                borderWidth={
-                  numDiners <= 2 ||
-                  numDiners >= 6 ||
-                  !isChildrenAboveTwelveVaccinated ||
-                  !isChildrenBelowTwelve
-                    ? 1
-                    : 2
-                }
-                disabled={
-                  numDiners <= 2 ||
-                  numDiners >= 6 ||
-                  !isChildrenAboveTwelveVaccinated ||
-                  !isChildrenBelowTwelve
-                }
-                value={numChildren}
-                onChange={(event) =>
-                  setNumChildren(parseInt(event.target.value))
-                }
-              >
-                <option value="1">1 child</option>
-                <option value="2">2 children</option>
-                <option value="3">3 - 5 children</option>
-              </Select>
-            )}
-          </div>
-
-          {!isDinersFromSameHousehold && numChildren === 2 && (
-            <div>
-              <Heading as="h5" size="sm">
-                How many diners in the group?
-              </Heading>
-              <Select
-                value={numDinersWithChildren}
-                disabled={
-                  numDiners <= 2 ||
-                  numDiners >= 6 ||
-                  !isChildrenAboveTwelveVaccinated ||
-                  !isChildrenBelowTwelve
-                }
-                onChange={(event) =>
-                  setnumDinersWithChildren(parseInt(event.target.value))
-                }
-              >
-                <option value="3">3 diners</option>
-                <option value="4">4 or 5 diners</option>
-              </Select>
-            </div>
-          )}
           <ButtonGroup>
-            <Button onClick={() => check()} variant="outline">
+            <Button onClick={() => checkResults()} variant="outline">
               Check
             </Button>
             <Button onClick={() => reset()} variant="outline">
@@ -349,6 +246,12 @@ function App() {
           <Divider />
           <Text fontSize="xs" color="gray.400">
             Developed by Renyi Tan
+          </Text>
+          <Text fontSize="xs" color="gray.400">
+            Information from{' '}
+            <a target="_blank" rel="noreferrer" href={ST_INFOGRAPHIC_URL}>
+              <u>ST Infographics</u>
+            </a>
           </Text>
         </Stack>
       </Center>
