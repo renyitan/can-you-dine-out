@@ -1,6 +1,6 @@
 {
-  "short_name": "Can you dine out?",
-  "name": "Can You Dine Out?",
+  "short_name": "Can You Dine Out",
+  "name": "Can You Dine Out",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "wine.png",
+      "src": "logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "wine.png",
+      "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
