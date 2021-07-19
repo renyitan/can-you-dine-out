@@ -12,6 +12,8 @@ import {
   Divider,
 } from '@chakra-ui/react';
 
+const GITHUB_URL = 'https://github.com/renyitan';
+
 const ST_INFOGRAPHIC_URL =
   'https://www.straitstimes.com/singapore/health/dine-in-group-size-cut-to-2-from-july-19-as-spore-tightens-covid-19-rules-but-up-to';
 
@@ -245,7 +247,10 @@ function App() {
           </ButtonGroup>
           <Divider />
           <Text fontSize="xs" color="gray.400">
-            Developed by Renyi Tan
+            Developed by{' '}
+            <a target="_blank" rel="noreferrer" href={GITHUB_URL}>
+              <u>Renyi Tan</u>
+            </a>
           </Text>
           <Text fontSize="xs" color="gray.400">
             Information from{' '}
