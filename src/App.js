@@ -1,7 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 
-import { Button, Center, Select, Stack } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Container,
+  Center,
+  Flex,
+  Grid,
+  GridItem,
+  Select,
+  Stack,
+} from '@chakra-ui/react';
 
 function App() {
   const [numDiners, setNumDiners] = useState(2);
@@ -10,23 +20,26 @@ function App() {
   const [isChildrenBelowTwelve, setIsChildrenBelowTwleve] = useState(false);
   const [isDinersFromSameHousehold, setIsDinersFromSameHousehold] =
     useState(false);
-
   const [numChildren, setNumChildren] = useState(1);
   const [numDinersWithChildren, setnumDinersWithChildren] = useState(0);
+  const [isAllowed, setIsAllowed] = useState(true);
 
-  useEffect(() => {
+  function reset() {
+    setNumDiners(2);
     setIsChildrenAboveTwelveVaccinated(false);
     setIsChildrenBelowTwleve(false);
     setIsDinersFromSameHousehold(false);
     setNumChildren(1);
     setnumDinersWithChildren(0);
+  }
+
+  useEffect(() => {
+    if (numDiners === 2) reset();
   }, [numDiners]);
 
   useEffect(() => {
     setNumChildren(1);
   }, [isDinersFromSameHousehold]);
-
-  const [isAllowed, setIsAllowed] = useState(true);
 
   function check() {
     if (numDiners <= 2) {
@@ -49,16 +62,11 @@ function App() {
     }
 
     if (isDinersFromSameHousehold) {
-      if (numChildren < 5) setIsAllowed(true);
-      else {
-        setIsAllowed(false);
-      }
+      numChildren < 5 ? setIsAllowed(true) : setIsAllowed(false);
       return;
     }
 
     if (!isDinersFromSameHousehold) {
-      console.log('numChildren', numChildren);
-
       if (numChildren === 1) {
         setIsAllowed(true);
         return;
@@ -69,26 +77,20 @@ function App() {
         return;
       }
 
-      console.log('numDiners', numDiners);
-
-      if (numDinersWithChildren <= 3) {
-        setIsAllowed(false);
-      } else {
-        setIsAllowed(true);
-      }
+      numDinersWithChildren <= 3 ? setIsAllowed(false) : setIsAllowed(true);
       return;
     }
     return;
   }
 
   return (
-    <div className="App">
+    <div>
       <Center>
         <Stack>
           <div>
             <h1>Number of diners</h1>
             <Select
-              defaultValue={numDiners}
+              value={numDiners}
               onChange={(event) => setNumDiners(parseInt(event.target.value))}
             >
               <option value="2">1 -2 pax</option>
@@ -156,7 +158,7 @@ function App() {
                   !isChildrenAboveTwelveVaccinated ||
                   !isChildrenBelowTwelve
                 }
-                defaultValue={numChildren}
+                value={numChildren}
                 onChange={(event) =>
                   setNumChildren(parseInt(event.target.value))
                 }
@@ -173,7 +175,6 @@ function App() {
                   !isChildrenAboveTwelveVaccinated ||
                   !isChildrenBelowTwelve
                 }
-                defaultValue={1}
                 value={numChildren}
                 onChange={(event) =>
                   setNumChildren(parseInt(event.target.value))
@@ -205,12 +206,19 @@ function App() {
               </Select>
             </div>
           )}
+          <ButtonGroup>
+            <Button onClick={() => check()}>Check</Button>
+            <Button onClick={() => reset()}>Reset</Button>
+          </ButtonGroup>
+        </Stack>
 
-          <Button onClick={() => check()}>Check</Button>
-        </Stack>
-        <Stack>
-          <h1>{isAllowed ? 'Allowed' : 'Not Allowed'}</h1>
-        </Stack>
+        <div>
+          {isAllowed ? (
+            <Box bg="green.200">Allowed</Box>
+          ) : (
+            <Box bg="red.200">Not Allowed</Box>
+          )}
+        </div>
       </Center>
     </div>
   );
