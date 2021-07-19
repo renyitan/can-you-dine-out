@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/candineout/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/candineout/static/js/main.fa50dff6.chunk.js",
-    "main.js.map": "/candineout/static/js/main.fa50dff6.chunk.js.map",
-    "runtime-main.js": "/candineout/static/js/runtime-main.b19e23ae.js",
-    "runtime-main.js.map": "/candineout/static/js/runtime-main.b19e23ae.js.map",
-    "static/js/2.31019ec8.chunk.js": "/candineout/static/js/2.31019ec8.chunk.js",
-    "static/js/2.31019ec8.chunk.js.map": "/candineout/static/js/2.31019ec8.chunk.js.map",
-    "index.html": "/candineout/index.html",
-    "static/css/main.6dea0f05.chunk.css.map": "/candineout/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.31019ec8.chunk.js.LICENSE.txt": "/candineout/static/js/2.31019ec8.chunk.js.LICENSE.txt"
+    "main.css": "/canyoudineout/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/canyoudineout/static/js/main.97242079.chunk.js",
+    "main.js.map": "/canyoudineout/static/js/main.97242079.chunk.js.map",
+    "runtime-main.js": "/canyoudineout/static/js/runtime-main.89d06f75.js",
+    "runtime-main.js.map": "/canyoudineout/static/js/runtime-main.89d06f75.js.map",
+    "static/js/2.d64f81d9.chunk.js": "/canyoudineout/static/js/2.d64f81d9.chunk.js",
+    "static/js/2.d64f81d9.chunk.js.map": "/canyoudineout/static/js/2.d64f81d9.chunk.js.map",
+    "index.html": "/canyoudineout/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/canyoudineout/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.d64f81d9.chunk.js.LICENSE.txt": "/canyoudineout/static/js/2.d64f81d9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.b19e23ae.js",
-    "static/js/2.31019ec8.chunk.js",
+    "static/js/runtime-main.89d06f75.js",
+    "static/js/2.d64f81d9.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.fa50dff6.chunk.js"
+    "static/js/main.97242079.chunk.js"
   ]
 }
