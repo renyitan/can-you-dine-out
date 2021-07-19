@@ -7,6 +7,8 @@ import {
   Select,
   Stack,
   Heading,
+  Text,
+  Divider,
 } from '@chakra-ui/react';
 
 function App() {
@@ -94,7 +96,17 @@ function App() {
   return (
     <div>
       <Center marginX={10} marginY={5}>
-        <Stack spacing={6}>
+        <Stack spacing={3}>
+          <div>
+            <Heading as="h2" size="sm" marginBottom={2}>
+              Can You Dine Out Safely?
+            </Heading>
+
+            <Text fontSize="xs">
+              Based on latest COVID-19 Measures w.e.f July 19, 2021
+            </Text>
+            <Text fontSize="xs">in Singapore</Text>
+          </div>
           <div>
             <Center
               bg={
@@ -111,7 +123,7 @@ function App() {
                 {isAllowed
                   ? 'Allowed'
                   : isAllowed === ''
-                  ? "Please press 'Check' to see results"
+                  ? "Press 'Check' to see results"
                   : 'Not Allowed'}
               </Heading>
             </Center>
@@ -334,6 +346,8 @@ function App() {
               Reset
             </Button>
           </ButtonGroup>
+          <Divider />
+          <Text fontSize="xs" color="gray.400">Developed by Renyi Tan</Text>
         </Stack>
       </Center>
     </div>
