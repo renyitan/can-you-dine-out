@@ -17,9 +17,6 @@ const GITHUB_URL = 'https://github.com/renyitan';
 const ST_INFOGRAPHIC_URL =
   'https://www.straitstimes.com/singapore/health/dine-in-group-size-cut-to-2-from-july-19-as-spore-tightens-covid-19-rules-but-up-to';
 
-const FLOWCHART_URL =
-  'https://www.reddit.com/r/singapore/comments/ommmds/a_flowchart_for_the_new_dining_in_rule_starting/';
-
 const STATUS = {
   ALLOWED: 'Allowed',
   NO_RESULTS: "Press 'Check' for results",
@@ -50,7 +47,7 @@ function App() {
   }, [numDiners]);
 
   useEffect(() => {
-    if (numChildren >= 0) setNumAdults(numDiners - numChildren);
+    setNumAdults(numDiners - numChildren);
   }, [numChildren, numDiners]);
 
   useEffect(() => {
@@ -65,6 +62,11 @@ function App() {
   function displayResults() {
     if (isAllowed === '') return STATUS.NO_RESULTS;
     else return isAllowed ? STATUS.ALLOWED : STATUS.NOT_ALLOWED;
+  }
+
+  function displayResultsBackground() {
+    if (isAllowed === '') return 'gray.200';
+    else return isAllowed ? 'green.200' : 'red.200';
   }
 
   function checkResults() {
@@ -133,17 +135,7 @@ function App() {
             <Text fontSize="xs">in Singapore</Text>
           </div>
           <div>
-            <Center
-              bg={
-                isAllowed
-                  ? 'green.200'
-                  : isAllowed === ''
-                  ? 'gray.200'
-                  : 'red.200'
-              }
-              paddingY={4}
-              marginY={2}
-            >
+            <Center bg={displayResultsBackground} paddingY={4} marginY={2}>
               <Heading as="h5" size="sm">
                 {displayResults()}
               </Heading>
@@ -161,11 +153,11 @@ function App() {
               value={numDiners}
               onChange={(event) => setNumDiners(parseInt(event.target.value))}
             >
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
+              {_.times(5, (num) => (
+                <option value={num + 1} key={num + 1}>
+                  {num + 1}
+                </option>
+              ))}
               <option value={6}>More than 6</option>
             </Select>
           </div>
