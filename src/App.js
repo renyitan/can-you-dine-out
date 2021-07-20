@@ -34,6 +34,8 @@ function App() {
 
   const [isAllowed, setIsAllowed] = useState('');
 
+  const numDinersBeyondLimits = () => numDiners <= 2 || numDiners >= 6;
+
   function reset() {
     setIsAllowed('');
     setNumDiners(2);
@@ -130,7 +132,7 @@ function App() {
             </Heading>
 
             <Text fontSize="xs">
-              Based on latest COVID-19 Measures w.e.f July 19, 2021
+              Based on latest COVID-19 Measures effective July 19, 2021
             </Text>
             <Text fontSize="xs">in Singapore</Text>
           </div>
@@ -168,11 +170,9 @@ function App() {
             </Heading>
 
             <Select
-              borderColor={
-                numDiners <= 2 || numDiners >= 6 ? 'gray.200' : 'green.200'
-              }
-              borderWidth={numDiners <= 2 || numDiners >= 6 ? 1 : 2}
-              disabled={numDiners <= 2 || numDiners >= 6}
+              borderColor={numDinersBeyondLimits() ? 'gray.200' : 'green.200'}
+              borderWidth={numDinersBeyondLimits() ? 1 : 2}
+              disabled={numDinersBeyondLimits()}
               value={numChildren}
               onChange={(event) => setNumChildren(event.target.value)}
             >
@@ -190,12 +190,10 @@ function App() {
             </Heading>
 
             <Select
-              borderColor={
-                numDiners <= 2 || numDiners >= 6 ? 'gray.200' : 'green.200'
-              }
-              borderWidth={numDiners <= 2 || numDiners >= 6 ? 1 : 2}
+              borderColor={numDinersBeyondLimits() ? 'gray.200' : 'green.200'}
+              borderWidth={numDinersBeyondLimits() ? 1 : 2}
               value={isEveryoneAboveTwelveVaccinated ? 'yes' : 'no'}
-              disabled={numDiners <= 2 || numDiners >= 6}
+              disabled={numDinersBeyondLimits()}
               onChange={(event) =>
                 setIsEveryoneAboveTwelveVaccinated(
                   event.target.value === 'yes' || false
@@ -212,12 +210,10 @@ function App() {
               Are all diners from the same household?
             </Heading>
             <Select
-              borderColor={
-                numDiners <= 2 || numDiners >= 6 ? 'gray.200' : 'green.200'
-              }
-              borderWidth={numDiners <= 2 || numDiners >= 6 ? 1 : 2}
+              borderColor={numDinersBeyondLimits() ? 'gray.200' : 'green.200'}
+              borderWidth={numDinersBeyondLimits() ? 1 : 2}
               value={isDinersFromSameHousehold ? 'yes' : 'no'}
-              disabled={numDiners <= 2 || numDiners >= 6}
+              disabled={numDinersBeyondLimits()}
               onChange={(event) =>
                 setIsDinersFromSameHousehold(
                   event.target.value === 'yes' ?? false
