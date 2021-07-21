@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/canyoudineout/static/css/main.2ae47eeb.chunk.css",
-    "main.js": "/canyoudineout/static/js/main.646a5d20.chunk.js",
-    "main.js.map": "/canyoudineout/static/js/main.646a5d20.chunk.js.map",
+    "main.js": "/canyoudineout/static/js/main.c74304cf.chunk.js",
+    "main.js.map": "/canyoudineout/static/js/main.c74304cf.chunk.js.map",
     "runtime-main.js": "/canyoudineout/static/js/runtime-main.89d06f75.js",
     "runtime-main.js.map": "/canyoudineout/static/js/runtime-main.89d06f75.js.map",
-    "static/js/2.7195b6d2.chunk.js": "/canyoudineout/static/js/2.7195b6d2.chunk.js",
-    "static/js/2.7195b6d2.chunk.js.map": "/canyoudineout/static/js/2.7195b6d2.chunk.js.map",
+    "static/js/2.6a114e7b.chunk.js": "/canyoudineout/static/js/2.6a114e7b.chunk.js",
+    "static/js/2.6a114e7b.chunk.js.map": "/canyoudineout/static/js/2.6a114e7b.chunk.js.map",
     "index.html": "/canyoudineout/index.html",
     "static/css/main.2ae47eeb.chunk.css.map": "/canyoudineout/static/css/main.2ae47eeb.chunk.css.map",
-    "static/js/2.7195b6d2.chunk.js.LICENSE.txt": "/canyoudineout/static/js/2.7195b6d2.chunk.js.LICENSE.txt"
+    "static/js/2.6a114e7b.chunk.js.LICENSE.txt": "/canyoudineout/static/js/2.6a114e7b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.89d06f75.js",
-    "static/js/2.7195b6d2.chunk.js",
+    "static/js/2.6a114e7b.chunk.js",
     "static/css/main.2ae47eeb.chunk.css",
-    "static/js/main.646a5d20.chunk.js"
+    "static/js/main.c74304cf.chunk.js"
   ]
 }
