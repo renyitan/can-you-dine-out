@@ -2,14 +2,18 @@ import { useEffect, useState } from 'react';
 import _ from 'lodash';
 
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Button,
   ButtonGroup,
   Center,
+  Divider,
+  Heading,
   Select,
   Stack,
-  Heading,
   Text,
-  Divider,
 } from '@chakra-ui/react';
 
 const GITHUB_URL = 'https://github.com/renyitan';
@@ -127,14 +131,23 @@ function App() {
       <Center marginX={10} marginY={5}>
         <Stack spacing={3}>
           <div>
+            <Alert status="error">
+              <AlertIcon />
+              <AlertTitle mr={2}>Update: </AlertTitle>
+              <AlertDescription>
+                No dining out from 22 July to 18 Aug 2021
+              </AlertDescription>
+            </Alert>
+          </div>
+
+          <div>
             <Heading as="h2" size="sm" marginBottom={2}>
               Can You Dine Out Safely?
             </Heading>
 
             <Text fontSize="xs">
-              Based on latest COVID-19 Measures effective July 19, 2021
+              Based on COVID-19 Measures effective 19 Jul 2021 in Singapore
             </Text>
-            <Text fontSize="xs">in Singapore</Text>
           </div>
           <div>
             <Center bg={displayResultsBackground} paddingY={4} marginY={2}>
